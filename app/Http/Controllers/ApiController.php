@@ -15,7 +15,7 @@ class ApiController extends Controller
 
     $answera = 'Antwort vom A-Service!';
     $client = new Client(); //GuzzleHttp\Client
-    $result = $client->get('http://b-service.homestead/answerToA');
-    return $result;
+    $result = $client->get('http://b-service.homestead/answerToA')->getBody()->read(128);
+    return array($answera, $result);
   }
 }
