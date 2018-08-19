@@ -12,11 +12,14 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+  return $router->app->version();
 });
 
-$router->group(['prefix' => 'api'], function () use ($router) {
-
-  $router->get('toB',  ['uses' => 'ApiController@sendRequestToBService']);
+$router->group([
+  'middleware' => 'jwt.auth',
+  'prefix' => '/api'
+],
+function() use ($router) {
+  $router->post('toB', 'ApiController@sendRequestToBService');
 
 });
