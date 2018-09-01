@@ -15,10 +15,12 @@ class ApiController extends Controller
   {
 
     $token = $request->get('token');
+    $requestedService = 'B-Service';
 
     $answera = 'Antwort vom A-Service!';
-    $client = new Client(); //GuzzleHttp\Client
-    $result = $client->post('http://b-service.homestead/answerToA', ['json' => ['token' => $token]])->getBody()->read(128);
+    $client = new Client(array( 'curl' => array( CURLOPT_SSL_VERIFYPEER => false))); //GuzzleHttp\Client
+    $serviceLocation = $client->get('http://registrydb.homestead/api/services/' . $requestedService)->getBody()->read(256);
+    $result = $client->post('https://' . $serviceLocation . '/answerToA', ['json' => ['token' => $token]])->getBody()->read(128);
     return array($answera, $result);
   }
 }
