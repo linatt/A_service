@@ -23,3 +23,12 @@ function() use ($router) {
   $router->post('toB', 'ApiController@sendRequestToBService');
 
 });
+
+$router->group([
+  'middleware' => 'auth',
+  'prefix' => '/paseto_api'
+],
+function() use ($router) {
+  $router->post('toB', 'ApiController@sendPasetoRequestToBService');
+
+});

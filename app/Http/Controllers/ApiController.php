@@ -23,4 +23,22 @@ class ApiController extends Controller
     $result = $client->post('https://' . $serviceLocation . '/answerToA', ['json' => ['token' => $token]])->getBody()->read(128);
     return array($answera, $result);
   }
+
+  public function sendPasetoRequestToBService(Request $request){
+    $token = $request->headers->get('Authorization');
+    $requestedService = 'B-Service';
+
+    $headers = [
+    'Authorization' => $token,
+    'Accept'        => 'application/json',
+];
+
+    $answera = 'Antwort vom A-Service!';
+    $client = new Client(array( 'curl' => array( CURLOPT_SSL_VERIFYPEER => false))); //GuzzleHttp\Client
+    $serviceLocation = $client->get('http://registrydb.homestead/api/services/' . $requestedService)->getBody()->read(256);
+    $result = $client->post('https://' . $serviceLocation . '/pasetoAnswerToA', [
+        'headers' => $headers
+    ])->getBody()->read(128);
+    return array($answera, $result);
+  }
 }
