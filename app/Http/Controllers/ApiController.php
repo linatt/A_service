@@ -19,7 +19,7 @@ class ApiController extends Controller
 
     $answera = 'Antwort vom A-Service!';
     $client = new Client(array( 'curl' => array( CURLOPT_SSL_VERIFYPEER => false))); //GuzzleHttp\Client
-    $serviceLocation = $client->get('http://registrydb.homestead/api/services/' . $requestedService)->getBody()->read(256);
+    $serviceLocation = $client->get('https://registrydb.homestead/api/services/' . $requestedService)->getBody()->read(256);
     $result = $client->post('https://' . $serviceLocation . '/answerToA', ['json' => ['token' => $token]])->getBody()->read(128);
     return array($answera, $result);
   }
@@ -35,7 +35,7 @@ class ApiController extends Controller
 
     $answera = 'Antwort vom A-Service!';
     $client = new Client(array( 'curl' => array( CURLOPT_SSL_VERIFYPEER => false))); //GuzzleHttp\Client
-    $serviceLocation = $client->get('http://registrydb.homestead/api/services/' . $requestedService)->getBody()->read(256);
+    $serviceLocation = $client->get('https://registrydb.homestead/api/services/' . $requestedService)->getBody()->read(256);
     $result = $client->post('https://' . $serviceLocation . '/pasetoAnswerToA', [
         'headers' => $headers
     ])->getBody()->read(128);
